@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bizne$</title>
+
+    <style>
+        h1{
+            text-align: center;
+        }
+        th{
+            width: 100px;
+        }
+        table, th, td{
+            text-align: center;
+            border: 2px black solid;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        p{
+            text-align: center;
+        }
+        body{
+            background-color: bisque;
+        }
+    </style>
+
+</head>
+<body>
+    
+    <h1>BIZNE$</h1>
+    <hr>
+    <p>Obecnie najbogatszym człowiekiem na świecie jest Elon Musk z majątkiem wynoszącym ponad 245 mld. Twoim zadaniem jest zarobić tyle, aby go przebić.</p>
+    <hr>
+    <br><br>
+
+    <p id="cityDisplay">Jesteś w: Warszawa</p>
+    <p id="moneyDisplay">Pieniądze: 100</p>
+    
+    <br><br>
+    <hr>
+    <br><br>
+
+    <table>
+        <caption>Towary</caption>
+        <tr>
+            <th>Nazwa</th>
+            <th>Cena</th>
+            <th>Posiadasz</th>
+        </tr>
+        <tr>
+            <td>Długopis</td>
+            <td class="price">2</td>
+            <td class="inventory">0</td>
+            <td><button onclick="buy(0)">Kup</button></td>
+            <td><button onclick="sell(0)">Sprzedaj</button></td>
+        </tr>
+        <tr>
+            <td>Komputer</td>
+            <td class="price">3000</td>
+            <td class="inventory">0</td>
+            <td><button onclick="buy(1)">Kup</button></td>
+            <td><button onclick="sell(1)">Sprzedaj</button></td>
+        </tr>
+        <tr>
+            <td>Jabłko</td>
+            <td class="price">1</td>
+            <td class="inventory">0</td>
+            <td><button onclick="buy(2)">Kup</button></td>
+            <td><button onclick="sell(2)">Sprzedaj</button></td>
+        </tr>
+        <tr>
+            <td>Kokaina</td>
+            <td class="price">1000</td>
+            <td class="inventory">0</td>
+            <td><button onclick="buy(3)">Kup</button></td>
+            <td><button onclick="sell(3)">Sprzedaj</button></td>
+        </tr>
+        <tr>
+            <td>Ubrania</td>
+            <td class="price">20</td>
+            <td class="inventory">0</td>
+            <td><button onclick="buy(4)">Kup</button></td>
+            <td><button onclick="sell(4)">Sprzedaj</button></td>
+        </tr>
+        <tr>
+            <td>Samochód</td>
+            <td class="price">100 000</td>
+            <td class="inventory">0</td>
+            <td><button onclick="buy(5)">Kup</button></td>
+            <td><button onclick="sell(5)">Sprzedaj</button></td>
+        </tr>
+    </table>
+
+    <br><br>
+
+    <table>
+        <caption>Podróże</caption>
+        <tr>
+            <th>Nazwa</th>
+            <th>Cena</th>
+        </tr>
+        <tr>
+            <td class="cityName">Warszawa</td>
+            <td class="travel">100</td>
+            <td><button onclick="travel(0)">Jedź</button></td>
+        </tr>
+        <tr>
+            <td class="cityName">Paryż</td>
+            <td class="travel">100</td>
+            <td><button onclick="travel(1)">Jedź</button></td>
+        </tr>
+        <tr>
+            <td class="cityName">Nowy Jork</td>
+            <td class="travel">100</td>
+            <td><button onclick="travel(2)">Jedź</button></td>
+        </tr>
+        <tr>
+            <td class="cityName">Moskwa</td>
+            <td class="travel">100</td>
+            <td><button onclick="travel(3)">Jedź</button></td>
+        </tr>
+        <tr>
+            <td class="cityName">Tokyo</td>
+            <td class="travel">100</td>
+            <td><button onclick="travel(4)">Jedź</button></td>
+        </tr>
+        <tr>
+            <td class="cityName">Buenos Aires</td>
+            <td class="travel">100</td>
+            <td><button onclick="travel(5)">Jedź</button></td>
+        </tr>
+    </table>
+
+
+
+    <script>
+
+        var prices = document.getElementsByClassName("price");
+        var travels = document.getElementsByClassName("travel");
+        var cityNames = document.getElementsByClassName("cityName");
+        var inventory = document.getElementsByClassName("inventory");
+
+        var actualCity = cityNames[0].innerHTML
+        var money = Number(document.getElementById("moneyDisplay").innerHTML.split(" ")[1])
+
+        var stuffPricesIndicators = [2, 1000, 1, 1000, 20, 100000]
+
+        setNewPrices()
+
+        function setNewPrices()
+        {
+            for(var i=0; i < prices.length; i++)
+            {
+                var oldPrice = parseFloat(prices[i].innerHTML)
+                var randomPrice = (Math.random() * stuffPricesIndicators[i]).toFixed(2)
+
+                while(randomPrice <= 0)
+                {
+                    randomPrice = (Math.random() * stuffPricesIndicators[i]).toFixed(2)
+                }
+
+                prices[i].innerHTML=randomPrice
+            }
+
+            for(var i=0; i < travels.length; i++)
+            {
+                var oldPrice = parseFloat(travels[i].innerHTML)
+                var randomPrice = (Math.random() * 100).toFixed(2)
+                travels[i].innerHTML=randomPrice
+            }
+        }
+
+        function travel(cityId)
+        {
+            var travelPrice = Number(travels[cityId].innerHTML)
+            
+            if(actualCity == cityNames[cityId].innerHTML)
+            {
+                alert("Nie możesz pojechać do miejsca w którym obecnie jesteś")
+                return
+            }
+
+            if(money >= travelPrice)
+            {
+                actualCity = cityNames[cityId].innerHTML
+                document.getElementById("cityDisplay").innerHTML = "Jesteś w: " + actualCity
+                money -= travelPrice
+                update()
+                setNewPrices()
+            }
+            else
+                alert("Nie masz tyle pieniędzy!")
+
+        }
+
+        function buy(itemId)
+        {
+            amount = parseInt(window.prompt("Ile sztuk chcesz kupić?"))
+            actualPrice = amount * parseFloat(prices[itemId].innerHTML)
+
+            if(money >= actualPrice)
+            {
+                money -= actualPrice
+                inventory[itemId].innerHTML = parseInt(inventory[itemId].innerHTML) + amount
+                update()
+            }
+            else
+                alert("Za mało pieniędzy!")
+        }
+
+        function sell(itemId)
+        {
+            amountToSell = parseInt(window.prompt("Ile sztuk chcesz sprzedać?"))
+            
+            if(amountToSell <= inventory[itemId].innerHTML)
+            {
+                money = Number(money)
+                money += (amountToSell * parseFloat(prices[itemId].innerHTML))
+
+                inventory[itemId].innerHTML = parseInt(inventory[itemId].innerHTML) - amountToSell
+                update()
+
+                if(money > 245000000000)
+                {
+                    alert("Jesteś teraz najbogatszym człowiekiem na Ziemi. Wygrałeś!")
+                }
+            }
+            else
+                alert("Nie masz tyle!")
+        }
+
+        function update()
+        {
+            money = Number(money).toFixed(2)
+            document.getElementById("moneyDisplay").innerHTML = "Pieniądze: " + numberWithCommas(money)
+
+        }
+
+        //idk
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, " ");
+        }
+
+    </script>
+
+
+</body>
+</html>
